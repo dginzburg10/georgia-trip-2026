@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Грузия · сбор чемоданов</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;800&display=swap">
+<style id="css">
+/* Layout: A4 sheets as editable paper; two-column checklist per sheet; print = sheets only. */
+:root{
+  --bg:#e9e7e0; --paper:#fbfaf6; --ink:#1f201c; --muted:#6a6b63; --rule:#d9d7cf; --dots:#c4c2b9;
+  --accent:#1f5f4d; --accent-soft:#e3efe9; --btn:#fbfaf6; --shadow:rgba(0,0,0,.08);
+  --font:"Manrope","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1b18;--paper:#242622;--ink:#ecebe4;--muted:#9c9d94;--rule:#3b3d37;--dots:#4a4c45;--accent:#6fc2a3;--accent-soft:#2b3b34;--btn:#2d2f2a;--shadow:rgba(0,0,0,.4);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1a1b18;--paper:#242622;--ink:#ecebe4;--muted:#9c9d94;--rule:#3b3d37;--dots:#4a4c45;--accent:#6fc2a3;--accent-soft:#2b3b34;--btn:#2d2f2a;--shadow:rgba(0,0,0,.4);color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:10.6pt;line-height:1.35;margin:0;padding-block:16px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.toolbar{max-width:210mm;margin:0 auto 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.toolbar .hint{color:var(--muted);font-size:9.5pt;flex:1 1 220px;min-width:0}
+.status{font-size:9pt;color:var(--muted);min-width:0}
+.status.busy{color:var(--accent)}
+button{font:inherit;font-weight:600;font-size:9.5pt;border:1px solid var(--rule);background:var(--btn);color:var(--ink);border-radius:6px;padding:7px 12px;cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button:focus-visible,[contenteditable]:focus-visible,.box:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sheet{background:var(--paper);width:210mm;max-width:100%;min-height:297mm;margin:0 auto 18px;padding:12mm 13mm 11mm;box-shadow:0 2px 14px var(--shadow);display:flex;flex-direction:column}
+.hdr{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:3.5mm;margin-bottom:5mm;flex-wrap:wrap}
+h1{font-size:21pt;font-weight:800;letter-spacing:-.3pt;margin:0 0 1.5mm;text-wrap:balance}
+.sub{color:var(--muted);font-size:8.6pt;margin:0}
+.fly{color:var(--muted);font-size:8.6pt;line-height:1.55;text-align:right;font-variant-numeric:tabular-nums;white-space:pre-line}
+.cols{display:grid;grid-template-columns:1fr 1fr;column-gap:9mm;row-gap:5mm;align-content:start;flex:1}
+.sec{min-width:0;break-inside:avoid}
+.sec h2{font-size:11.5pt;font-weight:800;margin:0 0 1.5mm;padding-bottom:1.2mm;border-bottom:1.2px solid var(--ink)}
+.sec ul{list-style:none;margin:0;padding:0}
+.row{display:flex;align-items:center;gap:2.2mm;padding:1.7mm 0;border-bottom:1px dotted var(--dots);position:relative}
+.box{width:3.8mm;height:3.8mm;border:1.1pt solid var(--ink);border-radius:.6mm;flex:0 0 auto;cursor:pointer;position:relative}
+.box.on::after{content:"";position:absolute;inset:.6mm;background:var(--accent);border-radius:.3mm}
+.txt{flex:1;min-width:0;overflow-wrap:anywhere}
+.txt:empty::before{content:"";display:block;height:3.4mm;border-bottom:.7pt solid var(--muted);margin-top:1mm}
+.qty{width:8mm;text-align:right;font-weight:800;font-variant-numeric:tabular-nums;flex:0 0 auto}
+.del{position:absolute;right:-5.5mm;top:50%;transform:translateY(-50%);width:4.6mm;height:4.6mm;border-radius:50%;border:none;background:transparent;color:var(--muted);padding:0;font-size:9pt;line-height:1;opacity:0}
+.row:hover .del{opacity:1}
+.add{margin-top:1.5mm;padding:2px 6px;border:none;background:transparent;color:var(--accent);font-weight:600;font-size:8.8pt}
+.foot{margin-top:4mm;padding-top:2mm;border-top:1px solid var(--rule);color:var(--muted);font-size:8pt;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+[contenteditable]{border-radius:2px}
+[contenteditable]:hover{background:var(--accent-soft)}
+.ro [contenteditable]{pointer-events:none}
+.ro .add,.ro .del{display:none}
+@media (max-width:600px){.cols{grid-template-columns:1fr}.sheet{min-height:0;padding:8mm 5mm}.del{opacity:1;right:0;background:var(--paper)}.row{padding-right:6mm}}
+@media (prefers-reduced-motion:no-preference){.del{transition:opacity .15s}}
+@page{size:A4;margin:0}
+@media print{
+  :root{--bg:#fff;--paper:#fff;--ink:#1f201c;--muted:#6a6b63;--rule:#d9d7cf;--dots:#c4c2b9;--accent:#1f5f4d;color-scheme:light}
+  body{padding:0;font-size:10.2pt}
+  .toolbar,.add,.del{display:none!important}
+  .sheet{box-shadow:none;margin:0;width:210mm;height:297mm;min-height:0;page-break-after:always;break-after:page;overflow:hidden}
+  .sheet:last-child{page-break-after:auto;break-after:auto}
+  .cols{grid-template-columns:1fr 1fr}
+  [contenteditable]:hover{background:transparent}
+  .box.on::after{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <span class="hint">Любой текст на листе редактируется — кликните и правьте. Квадратики отмечаются, пустые строки заполняются.</span>
+  <span class="status" id="status"></span>
+  <button class="primary" id="btnPrint" hidden>Печать</button>
+  <button class="primary" id="btnDownload" hidden>Скачать для печати</button>
+  <button id="btnReset">Сбросить к исходному</button>
+</div>
+<div id="sheets"></div>
+<script id="state" type="application/json">{"h":{"title":"Грузия · 16–23 октября","sub":"Сбор чемоданов · 2 чемодана + 2 рюкзака · Тбилиси 20–26°C днём, 13°C вечером · Казбеги 8–13°C, дождь 20-го","fly":"LY5117 · 16.10 · 12:40 → 16:15\nLY5410 · 23.10 · 11:30 → 13:10","foot":"Заполняем чемоданы на 60–70% — остаток под вино и Сухой мост"},"sheets":[[{"t":"Чемодан — Дима","i":[["Футболки","4"],["Лонгслив","1"],["Рубашки на вечер","2"],["Треккинговые штаны","1"],["Вторые джинсы / брюки","1"],["Шорты","1"],["Shell-куртка с капюшоном","1"],["Лёгкая куртка / джинсовка","1"],["Бельё","8"],["Носки обычные","5"],["Носки тёплые","3"],["Шапка, бафф, перчатки тонкие","1"],["Плавки, шлёпанцы","1"],["Обувь треккинговая","1"],["Обувь вечерняя","1"],["Для сна","1"],["Несессер","1"],["",""],["",""],["",""]]},{"t":"Чемодан — Оля","i":[["Топы / футболки","4"],["Лонгслив","1"],["Вечерние (тёплое + лёгкое)","2"],["Юбка-миди или длинное платье","1"],["Вторые джинсы / брюки","1"],["Тёплые леггинсы / треккинговые штаны","1"],["Кардиган / свитер на вечер","1"],["Shell-куртка с капюшоном","1"],["Лёгкий жакет / джинсовка","1"],["Палантин","1"],["Бельё","8"],["Носки обычные","5"],["Носки тёплые","3"],["Колготки","2"],["Шапка, перчатки","1"],["Купальник, шлёпанцы, резинка","1"],["Обувь треккинговая","1"],["Обувь вечерняя без каблука","1"],["Для сна","1"],["Косметичка","1"],["Сумка кросс-боди","1"],["",""],["",""],["",""]]},{"t":"Дима — самолёт","i":[["Джинсы / тёмные брюки",""],["Лонгслив",""],["Флис или свитер",""],["Городские кроссовки",""],["",""],["",""],["",""]]},{"t":"Оля — самолёт","i":[["Джинсы / тёмные брюки",""],["Лонгслив",""],["Флис или свитер",""],["Городские кроссовки",""],["",""],["",""],["",""]]}],[{"t":"Дима — рюкзак","i":[["Паспорт","1"],["Наличные USD/EUR, карты",""],["Брони отелей, план поездки (PDF)",""],["Телефон, зарядка",""],["Пауэрбанк (только сюда)",""],["Наушники",""],["Shell-куртка — сверху",""],["Солнцезащитные очки",""],["Жидкости ≤100 мл, прозрачный пакет",""],["Пустая бутылка воды, перекус",""],["Смена белья + футболка (если задержат багаж)",""],["",""],["",""],["",""]]},{"t":"Оля — рюкзак","i":[["Паспорт","1"],["Карты",""],["Страховка: распечатка + PDF",""],["Телефон, зарядка",""],["Наушники",""],["Shell-куртка — сверху",""],["Солнцезащитные очки",""],["Жидкости ≤100 мл, прозрачный пакет",""],["Влажные салфетки, мини-косметичка",""],["Смена белья + футболка (если задержат багаж)",""],["",""],["",""],["",""]]},{"t":"Общее — в любой чемодан","i":[["Аптечка: личные препараты",""],["Обезболивающее",""],["От желудка",""],["Антигистаминное",""],["От укачивания",""],["Пластыри, антисептик",""],["Солнцезащитный крем, помада",""],["Тройник / удлинитель","1"],["Зонт компактный","1"],["Пакеты для мокрого, обувные мешки","6"],["Плёнка / сумка под вино обратно",""],["Маленький рюкзак на дневные выезды","1"],["",""],["",""],["",""]]},{"t":"Ещё взять","i":[["",""],["",""],["",""],["",""],["",""],["",""],["",""],["",""],["",""],["",""],["",""],["",""]]}],[{"t":"Сегодня — дела","i":[["Поменять деньги на доллары / евро",""],["Выбрать и купить travel eSIM на 8 дней",""],["Онлайн-регистрация LY5117, места на четверых",""],["Гид: встреча 16-го, трансфер 23-го в 08:00",""],["Подтвердить бани 17-го 16:30 и винодельню 18-го 14:00",""],["Страховка на четверых — PDF в телефон",""],["Фото паспортов в телефон",""],["Офлайн-карты Тбилиси и Казбеги, Bolt, переводчик",""],["Брони отелей и план поездки — офлайн / PDF",""],["Предупредить банк о поездке",""],["Кот: еда и присмотр на 8 дней",""],["",""],["",""],["",""]]},{"t":"Сегодня вечером","i":[["Разносить треккинговую обувь",""],["Собрать чемоданы по листам 1–2",""],["Зарядить телефоны, пауэрбанки, наушники",""],["Жидкости ≤100 мл — в прозрачный пакет",""],["Пауэрбанк — в рюкзак, не в чемодан",""],["Взвесить чемоданы",""],["Будильник",""],["",""],["",""],["",""]]},{"t":"Завтра утром","i":[["Паспорт — у каждого в руках",""],["Карты, наличные",""],["Телефон, зарядка, наушники",""],["Такси / парковка в аэропорту",""],["Выезд в Бен-Гурион к 09:30",""],["",""],["",""],["",""]]},{"t":"Перед выходом из дома","i":[["Окна закрыты",""],["Вода, газ выключены",""],["Свет, электроприборы",""],["Кот: вода, еда, лоток",""],["Ключи соседям",""],["Мусор вынесен",""],["Дверь, сигнализация",""],["",""],["",""],["",""]]}]]}</script>
+<script>
+(() => {
+const SRC = document.currentScript.textContent;
+const CSS = document.getElementById("css").textContent;
+const SHELL = document.querySelector(".toolbar").outerHTML + '<div id="sheets"></div>';
+const RESET = ':root{color-scheme:light;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}';
+const FONTS = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;800&display=swap">';
+const TITLE = "Грузия · сбор чемоданов";
+const LS = "georgia-packing-2026-v3", SS = "georgia-packing-stash";
+
+const DEFAULT = JSON.parse(document.getElementById("state").textContent);
+const norm = st => ({ h:{...st.h}, sheets: st.sheets.map(s => s.map(sec => ({ t:sec.t, i: sec.i.map(x => Array.isArray(x) ? {n:x[0],q:x[1],on:false} : {n:x.n,q:x.q,on:!!x.on}) }))) });
+const inArtifact = !!(window.claude && typeof window.claude.use === "function");
+
+let state = norm(DEFAULT);
+try {
+  const raw = inArtifact ? sessionStorage.getItem(SS) : localStorage.getItem(LS);
+  if (raw) { const st = JSON.parse(raw); if (st && st.sheets) state = norm(st); }
+} catch (e) {}
+
+function serialize(st){ return JSON.stringify(st).replace(/<\//g, "<\\/"); }
+function docHTML(st){
+  return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>' + RESET + '</style></head><body>'
+    + '<title>' + TITLE + '</title><meta name="claude:viewport-fit-sides" content="cover">' + FONTS
+    + '<style id="css">' + CSS + '</style>' + SHELL
+    + '<script id="state" type="application/json">' + serialize(st) + '<\/script><script>' + SRC + '<\/script></body></html>';
+}
+function standaloneHTML(st){ // a file that opens from disk: same page, same script, local mode
+  return '<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + TITLE + '</title>' + FONTS
+    + '<style id="css">' + CSS + '</style></head><body>' + SHELL
+    + '<script id="state" type="application/json">' + serialize(st) + '<\/script><script>' + SRC + '<\/script></body></html>';
+}
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ed = (path, cls, val, tag="span") => `<${tag} class="${cls}" contenteditable="plaintext-only" data-path="${path}">${esc(val)}</${tag}>`;
+const root = document.getElementById("sheets");
+const statusEl = document.getElementById("status");
+let readOnly = false;
+
+function render(){
+  root.innerHTML = state.sheets.map((sheet, si) => `
+  <section class="sheet">
+    ${si===0 ? `<header class="hdr"><div>${ed("h.title","",state.h.title,"h1")}${ed("h.sub","sub",state.h.sub,"p")}</div>${ed("h.fly","fly",state.h.fly,"div")}</header>` : ""}
+    <div class="cols">${sheet.map((sec, ci) => `
+      <div class="sec"><h2>${ed(`sheets.${si}.${ci}.t`,"",sec.t)}</h2>
+        <ul>${sec.i.map((it, ii) => `<li class="row">
+            <span class="box ${it.on?"on":""}" role="checkbox" aria-checked="${it.on}" tabindex="0" data-toggle="${si}.${ci}.${ii}"></span>
+            ${ed(`sheets.${si}.${ci}.i.${ii}.n`,"txt",it.n)}${ed(`sheets.${si}.${ci}.i.${ii}.q`,"qty",it.q)}
+            <button class="del" data-del="${si}.${ci}.${ii}" title="Удалить строку" aria-label="Удалить строку">×</button></li>`).join("")}
+        </ul><button class="add" data-add="${si}.${ci}">+ строка</button></div>`).join("")}
+    </div>
+    <div class="foot"><span>${ed("h.foot","",state.h.foot)}</span><span>лист ${si+1} из ${state.sheets.length}</span></div>
+  </section>`).join("");
+  document.body.classList.toggle("ro", readOnly);
+}
+const get = p => p.split(".").reduce((o,k)=>o[k], state);
+const set = (p, v) => { const a=p.split("."); const k=a.pop(); get(a.join("."))[k]=v; };
+
+// ---- persistence: local file → localStorage; published page → republish itself
+let artifactNs = null, timer = null, wait = 2500, inflight = false;
+function stash(){ try { inArtifact ? sessionStorage.setItem(SS, JSON.stringify(state)) : localStorage.setItem(LS, JSON.stringify(state)); } catch(e){} }
+function changed(){
+  stash();
+  if (!inArtifact) return;
+  if (readOnly) return;
+  statusEl.textContent = "Изменения…"; statusEl.className = "status busy";
+  clearTimeout(timer); timer = setTimeout(publish, wait);
+}
+async function publish(){
+  if (!artifactNs || inflight) { timer = setTimeout(publish, 800); return; }
+  inflight = true; statusEl.textContent = "Сохраняю…";
+  try {
+    await artifactNs.publish(docHTML(state));
+    try { sessionStorage.removeItem(SS); } catch(e){}
+    statusEl.textContent = "Сохранено"; statusEl.className = "status";
+  } catch (err) {
+    const code = err && err.code;
+    if (code === "not_writer" || code === "not_granted" || code === "not_declared" || code === "consent_required") {
+      readOnly = true; render(); statusEl.textContent = "Только просмотр — правки здесь не сохраняются"; statusEl.className = "status";
+    } else if (code === "conflict") { statusEl.textContent = "Кто-то только что сохранил — обновляю"; }
+    else if (code === "rate_limited") { wait = Math.min(wait * 2, 20000); statusEl.textContent = "Чуть позже…"; timer = setTimeout(publish, wait); }
+    else { statusEl.textContent = "Не удалось сохранить, попробую ещё раз"; timer = setTimeout(publish, 3000 + Math.random()*2000); }
+  } finally { inflight = false; }
+}
+
+root.addEventListener("input", e => { const el=e.target.closest("[data-path]"); if(!el || readOnly) return; set(el.dataset.path, el.textContent); changed(); });
+root.addEventListener("click", e => {
+  if (readOnly) return;
+  const t = e.target.closest("[data-toggle]"); if(t){ const [si,ci,ii]=t.dataset.toggle.split("."); const it=state.sheets[si][ci].i[ii]; it.on=!it.on; render(); changed(); return; }
+  const d = e.target.closest("[data-del]"); if(d){ const [si,ci,ii]=d.dataset.del.split("."); state.sheets[si][ci].i.splice(+ii,1); render(); changed(); return; }
+  const a = e.target.closest("[data-add]"); if(a){ const [si,ci]=a.dataset.add.split("."); state.sheets[si][ci].i.push({n:"",q:"",on:false}); render(); changed();
+    const sec = root.querySelector(`[data-add="${si}.${ci}"]`).parentElement; const rows = sec.querySelectorAll(".txt"); rows[rows.length-1].focus(); }
+});
+root.addEventListener("keydown", e => {
+  if ((e.key===" "||e.key==="Enter") && e.target.dataset.toggle){ e.preventDefault(); e.target.click(); }
+  if (e.key==="Enter" && e.target.isContentEditable){ e.preventDefault(); e.target.blur(); }
+});
+
+const btnReset = document.getElementById("btnReset");
+btnReset.onclick = () => {
+  if (btnReset.dataset.arm){ delete btnReset.dataset.arm; btnReset.textContent="Сбросить к исходному"; state = norm(DEFAULT); render(); changed(); }
+  else { btnReset.dataset.arm="1"; btnReset.textContent="Точно сбросить? Нажмите ещё раз"; setTimeout(()=>{ delete btnReset.dataset.arm; btnReset.textContent="Сбросить к исходному"; },4000); }
+};
+const btnPrint = document.getElementById("btnPrint"), btnDownload = document.getElementById("btnDownload");
+if (!inArtifact) {
+  btnPrint.hidden = false; btnPrint.onclick = () => window.print();
+  statusEl.textContent = "Правки хранятся в этом браузере";
+} else {
+  statusEl.textContent = "Подключаюсь…";
+  window.claude.use("artifact").then(ns => {
+    artifactNs = ns;
+    if (!ns) { readOnly = true; render(); statusEl.textContent = "Только просмотр"; return; }
+    statusEl.textContent = "Изменения сохраняются для всех автоматически";
+    try { if (sessionStorage.getItem(SS)) changed(); } catch(e){}
+  });
+  window.claude.use("downloads").then(dl => {
+    if (!dl) return;
+    btnDownload.hidden = false;
+    btnDownload.onclick = async () => {
+      btnDownload.disabled = true;
+      try { await dl.save({ filename: "Грузия_сбор_чемоданов.html", data: standaloneHTML(state) }); statusEl.textContent = "Файл сохранён — откройте его и нажмите «Печать»"; }
+      catch (err) { if (!(err && err.code === "declined")) statusEl.textContent = "Скачать не получилось"; }
+      finally { btnDownload.disabled = false; }
+    };
+  });
+}
+render();
+})();
+</script>
+</body>
+</html>
